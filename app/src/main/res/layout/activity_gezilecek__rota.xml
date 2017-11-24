@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.sahin.navigasyon.Gezilecek_Rota">
+
+
+    <ImageView
+        android:id="@+id/btnimgTumRotalar"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="42dp"
+        android:contentDescription="Tüm Rotalar"
+        app:srcCompat="@drawable/rsz_if_globe_47408" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignTop="@+id/btnimgTumRotalar"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/rsz_historical" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_marginEnd="38dp"
+        app:srcCompat="@drawable/rsz_park" />
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/btnimgTumRotalar"
+        android:layout_below="@+id/btnimgTumRotalar"
+        android:layout_marginTop="31dp"
+        app:srcCompat="@drawable/mall" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView2"
+        android:layout_alignTop="@+id/imageView4"
+        app:srcCompat="@drawable/rsz_242452" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView3"
+        android:layout_alignTop="@+id/imageView5"
+        app:srcCompat="@drawable/rsz_eglencemerkezleri" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView4"
+        android:layout_below="@+id/imageView4"
+        android:layout_marginTop="27dp"
+        app:srcCompat="@drawable/rsz_sehirakt" />
+
+    <ImageView
+        android:id="@+id/imageView8"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView5"
+        android:layout_alignTop="@+id/imageView7"
+        app:srcCompat="@drawable/rsz_yapilacakplanlaer" />
+
+    <ImageView
+        android:id="@+id/imageView9"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView6"
+        android:layout_alignTop="@+id/imageView8"
+        app:srcCompat="@drawable/rsz_ornekrotalar" />
+
+    <ImageView
+        android:id="@+id/imageView10"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/imageView7"
+        android:layout_below="@+id/imageView7"
+        android:layout_marginTop="27dp"
+        app:srcCompat="@drawable/rsz_encoktercihedilenyerler" />
+</RelativeLayout>

@@ -1,70 +1,202 @@
 package com.example.sahin.navigasyon;
 
+import android.Manifest;
+import android.app.Fragment;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.media.Image;
 import android.os.AsyncTask;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+import android.view.MenuItem;
+import android.widget.TextView;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
+
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback ,NavigationView.OnNavigationItemSelectedListener
+{
     LatLng latLng2;
     LatLng latLng;
     double enlem0;
     double enlem;
     double boylam;
     double boylam0;
-
+    private Context cntx;
+    ImageButton btn;
     GoogleMap map;
     EditText etBasla, etBitis;
-    JSONArray res = new JSONArray();
 
+    private ViewGroup infoWindow;
+    //toolbar nesnemizi oluşturduk
+    android.support.v7.widget.Toolbar toolbar;
+    DrawerLayout drawerLayout;
+    NavigationView navigationView;
+    JSONArray res = new JSONArray();
+    //  private WeakHashMap<Marker, Image> hashMap;  incele :https://medium.com/@iammert/log-v-threetips-2-fc4d3eb7e0dc
+
+    Map<String, String> imgMap = new HashMap<>();
+
+
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        //Açılır menü işaretini ve o işarate tıklanınca menünün açılması gerektiğini  ActionBarDrawerToggle ile ayarlıyoruz
+        toolbar=(android.support.v7.widget.Toolbar)findViewById(R.id.toolbar);
+        navigationView=(NavigationView)findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        drawerLayout= (DrawerLayout) findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle drawerToggle=
+                new ActionBarDrawerToggle(this, drawerLayout,toolbar,
+                        R.string.drawer_open, R.string.drawer_close);
+        //ikonun kullanım sırasında şekil değiştirmesini saglıyor
+        drawerLayout.addDrawerListener(drawerToggle);
+        drawerToggle.syncState();
+
+
         etBasla = (EditText) findViewById(R.id.etBasla);
         etBitis = (EditText) findViewById(R.id.etBitis);
 
+       // btn=(ImageButton)infoWindow.findViewById(R.id.btnrotayaekle);
         //Fragmente ulaşıyoruz
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(this);
+
+        //HashMap dizimin içerisine tıklanan marker a ait id ve karşılığında çağrılacak resim yolu atanmıştır.
+        imgMap.put("m0", "denizcilikmuzesi.jpg");
+        imgMap.put("m2", "dolmabahcesarayi.jpg");
+        imgMap.put("m3", "denizcilikmuzesi.jpg");
+
+    }
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item)
+    {
+        String itemAdi=(String)item.getTitle();
+
+        Log.e("adi","item :"+itemAdi);
+
+
+        //istediğimiz menü sayfası açıldığı zaman navibarın kapanması gerekiyor bu yüzden aşağıdaki metodu oluşturarak çağırıyoruz
+        navigetionviewKapat();
+
+        //Menü elemanlarından birine tıkladığım zaman çalışmasını istediğim bir eylem varsa onu switch case yapısı ile gerçekleştirebilirim
+        switch (item.getItemId())
+        {
+            case R.id.item_gezirotalari:
+                {
+
+
+                    Intent in=new Intent(MapsActivity.this,Gezilecek_Rota.class);
+                    startActivity(in);
+                    Log.e("item_android","id "+item.getItemId());
+                    break;
+                }
+
+            case R.id.item_blackberry:
+                break;
+        }
+        return false;
+    }
+    public void navigetionviewKapat()
+    {
+        //başlangıç noktasına doğru kapat
+        drawerLayout.closeDrawer(GravityCompat.START);
+    }
+
+    // navibarın açılmasını istediğimiz zaman kullanabilelim diye bir metot oluşturduk şart değil ilerleyen yerlerde kullanmamız
+    //gerekebilir
+    public void navigetionviewAc()
+    {
+
+        drawerLayout.openDrawer(GravityCompat.START);
+    }
+
+    /*onBackPressed metodu cihazın back butonuna tıklanınca devreye giren bir metotdur
+    * biz bu metodu çağırmazsak navibar menümüzden çıkmak için back butonuna tıklanınca uygulama tamamen kapanır
+    * amacımız navibar açık durumda basılmış ise sadece navibarı kapatsın eğer navibar açık değil ise
+    * uygulamadan çıkılacaktır
+    * */
+    @Override
+    public void onBackPressed() {
+        //eğer benim Drawer yani navibar açık ise geri butonuna basılınca navi barı kapat
+         if(drawerLayout.isDrawerOpen(GravityCompat.START))
+             navigetionviewKapat();
+        super.onBackPressed();
     }
 
     //kullanıcı donov buutonuna bastığı zaman enlem ve boylamları alıyoruz
-    public void doNav(View view)
-    {
+    public void doNav(View view) {
         final String basla = etBasla.getText().toString();
         final String bitis = etBitis.getText().toString();
 
-        Log.e("x","Basşlangıç alanı : "+basla);
-        Log.e("x","bitis  alanı : "+bitis);
+        Log.e("x", "Basşlangıç alanı : " + basla);
+        Log.e("x", "bitis  alanı : " + bitis);
+        if (ActivityCompat.checkSelfPermission(MapsActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return ;
+        }
+        map.setMyLocationEnabled(true);
+
 
         new AsyncTask<String, String, String>()
         {
@@ -86,6 +218,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             {
                 try
                 {
+
+
+
                     // jsoup arraye bağlanıp jsonu çekmemiz için aşağıdaki yolu kullanıyoruz
                     String adr = "https://maps.googleapis.com/maps/api/directions/json?origin="+basla+"&destination="+bitis;
                     String jsonStr = Jsoup.connect(adr)
@@ -109,7 +244,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .getJSONArray("steps");
 
                     Log.e("x","Response : "+jsonStr);
-                }catch(Exception e) { }
+                }
+                catch(Exception e)
+                { }
                 return null;
             }
 
@@ -202,7 +339,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                                 Log.e("x","başlangıç noktası  : "+latLng);
                                 Log.e("x","bitiş noktası  : "+latLng2);
-                            } catch (IOException e)
+                            }
+                            catch (IOException e)
                             {
                                 e.printStackTrace();
                             }
@@ -236,7 +374,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
 
-                } catch (Exception e) { Log.e("x","MAP PARSE EX : "+e); }
+                }
+                catch (Exception e) { Log.e("x","MAP PARSE EX : "+e); }
 
                 pd.dismiss();
             }
@@ -258,24 +397,105 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             double enlemim=41.015982;
             double enlemim1=41.0416152;
-                double boylamım=28.9653091;
-                double boylamım1=29.0047815;
+            double boylamım=28.9653091;
+            double boylamım1=29.0047815;
 
-
+        //harita üzerinde özellik verdiğim noktaları burada belirledim
         LatLng latLng11=new LatLng(enlemim,boylamım);
         map.addMarker(new MarkerOptions().position(latLng11).title("Süleymaniye cami en güzel camilerden biridir  "));
         LatLng latLng12=new LatLng(enlemim1,boylamım1);
-        map.addMarker(new MarkerOptions().position(latLng12).title("Denizcilik Müzesi").snippet("Türkiye'nin denizcilik alanında en büyük müzesi " +
-                "olan Deniz Müzesi, içerdiği koleksiyon çeşitliliği açısından dünyanın sayılı müzelerinden birisidir.\n" +
-                "\n" +
-                "MÜZENİN AÇIK OLDUĞU GÜN VE SAATLER\n" + "\n"+
-                "Yılbaşı, dini bayramların ilk günü ve Pazartesi günleri kapalı olup; haftaiçi" + "\n"+
-                " 09:00-17:00, haftasonu 10:00-18:00 saatleri arasında müzemizi ziyaret edebilirsiniz.  "));
+        map.addMarker(new MarkerOptions().position(latLng12).title("Denizcilik Müzesi")
+                .snippet("Türkiye'nin denizcilik alanında en büyük müzesi ")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE)));
+
+        map.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter()
+        {
+            @Override
+            public View getInfoWindow(Marker marker) {
+                return null;
+            }
+
+            @Override
+            public View getInfoContents(Marker marker)
+            {
+                View v=null;
+
+                try
+                {
+
+                    v=getLayoutInflater().inflate(R.layout.custom_infowindow,null);
+                    TextView txtadress=(TextView)v.findViewById(R.id.txtname);
+                    txtadress.setText(marker.getTitle());
+                    ImageView img=(ImageView)v.findViewById(R.id.tanitimresmi);
+                    Log.e("adres id","sss :"+marker.getId());
+
+                    //hashmap dizinin boyutunu alırız
+                    int iMs=imgMap.size();
+
+                    //tıklanan marker id değeri bu şekilde alınır
+                    String getid=""+marker.getId();
+
+                    //eğer hashmap içerisinde bu yeri işlemişsek   bize boş dönmeyecek ve istediğimiz değeri alabileceğiz
+                       if(imgMap.get(getid)!=null)
+                       {
+                           Log.e("  xx  ","yırttık kefeni "+imgMap.get(getid));
+                   /*        String addd=imgMap.get(getid);
+                        String adree="C:\\Users\\Sahin\\Desktop\\Navigasyon1\\app\\src\\main\\res\\drawable\\";*/
+
+                          // String path = getApplication().getFilesDir().getAbsolutePath();
+
+                          /* InputStream is = new FileInputStream(adree +""+addd);
+                           Drawable icon = new BitmapDrawable(is);
+                           img.setImageDrawable(icon);*/
+
+
+
+
+                            //Deneme amaçlı marker içerisindeki resim dosyasını değiştirme kodu
+
+                           if (imgMap.get(getid)==imgMap.get("m0"))
+                           {
+                               img.setImageResource(R.drawable.denizcilikmuzesi);
+                           }
+                           else if (imgMap.get(getid)==imgMap.get("m2"))
+                           {
+                               img.setImageResource(R.drawable.dolmabahcesarayi);
+                           }
+                       }
+
+                  //resimleri biçimlendirmek için ilerleyen dönemlerde kullanacağız
+                 //   Picasso.with(cntx).load("http://kingfisher.scene7.com/is/image/Kingfisher/4051315123607_01c?$PROMO_60_60$").into(img);
+
+
+
+
+
+                    map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                        @Override
+                        public void onInfoWindowClick(final Marker marker) {
+
+                            Log.e("başlık "+marker.getTitle(),"ne bileyim ben");
+
+                        }
+                    });
+
+
+                }
+                catch (Exception e)
+                {
+                    Log.e("infowindow ","hata : "+e);
+                }
+
+
+                return v;
+            }
+        });
 
     }
 
 
-    private List<LatLng> decodePoly(String encoded) {
+    private List<LatLng> decodePoly(String encoded)
+    {
 
         List<LatLng> poly = new ArrayList<>();
         int index = 0, len = encoded.length();
@@ -308,4 +528,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         return poly;
     }
+
+
 }
