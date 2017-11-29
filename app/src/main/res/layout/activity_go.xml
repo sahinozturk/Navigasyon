@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gooekrani1"
+    tools:context="com.example.sahin.navigasyon.Go">
+
+    <TextView
+        android:id="@+id/textView12"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="67dp"
+        android:text="LÜTFEN BİR YOLCULUK ŞEKLİ SEÇİNİZ"
+        android:textStyle="bold|italic" />
+
+    <ImageButton
+        android:id="@+id/btnGOUckbltal"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_below="@+id/textView12"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/rsz_ucakrezervasyonu" />
+
+    <ImageButton
+        android:id="@+id/btnGOkendiaracin"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/textView12"
+        android:layout_alignTop="@+id/btnGOUckbltal"
+        app:srcCompat="@drawable/kendiaracin" />
+
+    <ImageButton
+        android:id="@+id/btnGOgotbsbal"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignEnd="@+id/textView12"
+        android:layout_alignTop="@+id/btnGOUckbltal"
+        android:layout_marginEnd="12dp"
+        app:srcCompat="@drawable/rsz_otobusbilet" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:textStyle="bold|italic"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnGOkendiaracin"
+        android:layout_below="@+id/btnGOkendiaracin"
+        android:layout_marginTop="16dp"
+
+        android:text="Araba" />
+
+    <TextView
+        android:id="@+id/textView14"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView13"
+        android:layout_alignBottom="@+id/textView13"
+        android:layout_alignEnd="@+id/btnGOUckbltal"
+        android:layout_alignStart="@+id/btnGOUckbltal"
+        android:text="Uçak Bileti Al"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView15"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView14"
+        android:layout_alignBottom="@+id/textView14"
+        android:layout_alignEnd="@+id/btnGOgotbsbal"
+        android:layout_alignStart="@+id/btnGOgotbsbal"
+        android:text="Otobüs Bileti Al"
+        android:textStyle="bold|italic" />
+
+    <ImageButton
+        android:id="@+id/btnGOarckrala"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/textView13"
+        android:layout_below="@+id/textView14"
+        android:layout_marginTop="41dp"
+        app:srcCompat="@drawable/rsz_arackiralama" />
+
+    <ImageButton
+        android:id="@+id/btnGOtrnblal"
+        android:layout_width="80dp"
+        android:layout_height="66dp"
+        android:layout_alignStart="@+id/textView14"
+        android:layout_alignTop="@+id/btnGOarckrala"
+        app:srcCompat="@drawable/rsz_train" />
+
+    <ImageButton
+        android:id="@+id/btnGOyuruyerek"
+        android:layout_width="66dp"
+        android:layout_height="66dp"
+        android:layout_alignBottom="@+id/btnGOtrnblal"
+        android:layout_alignEnd="@+id/textView15"
+        app:srcCompat="@drawable/rsz_yuruyerekgit" />
+
+    <TextView
+        android:id="@+id/textView16"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/btnGOarckrala"
+        android:layout_alignStart="@+id/btnGOarckrala"
+        android:layout_below="@+id/btnGOarckrala"
+        android:layout_marginTop="34dp"
+        android:text="Araç Kirala"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:id="@+id/textView17"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/textView16"
+        android:layout_alignBottom="@+id/textView16"
+        android:layout_alignEnd="@+id/btnGOtrnblal"
+        android:layout_alignStart="@+id/btnGOtrnblal"
+        android:text="Tren  Seferleri"
+        android:textStyle="bold|italic" />
+
+    <TextView
+        android:textStyle="bold|italic"
+        android:id="@+id/textView18"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/btnGOyuruyerek"
+        android:layout_alignTop="@+id/textView17"
+        android:text="Yürüyerek"
+        style="@style/Widget.AppCompat.TextView.SpinnerItem"/>
+
+</RelativeLayout>
